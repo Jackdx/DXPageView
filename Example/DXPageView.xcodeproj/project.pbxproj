@@ -67,7 +67,7 @@
 		873B8AEA1B1F5CCA007FD442 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = Main.storyboard; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		BB4AECFD242F9E95007DA653 /* DXPageViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DXPageViewController.h; sourceTree = "<group>"; };
 		BB4AECFE242F9E95007DA653 /* DXPageViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DXPageViewController.m; sourceTree = "<group>"; };
-		D471486A10CCD0B07E3785EF /* DXPageView.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = DXPageView.podspec; path = ../DXPageView.podspec; sourceTree = "<group>"; };
+		D471486A10CCD0B07E3785EF /* DXPageView.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = DXPageView.podspec; path = ../DXPageView.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		E2A14CE478E4443D67398BD9 /* Pods-DXPageView_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DXPageView_Example.debug.xcconfig"; path = "Target Support Files/Pods-DXPageView_Example/Pods-DXPageView_Example.debug.xcconfig"; sourceTree = "<group>"; };
 		FC77E9A0BFF68068DFB37A3E /* Pods_DXPageView_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_DXPageView_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
