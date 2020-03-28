@@ -7,6 +7,8 @@
 //
 
 #import "DXViewController.h"
+#import "DXPageViewController.h"
+
 
 @interface DXViewController ()
 
@@ -22,7 +24,9 @@
 
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
 {
-    NSLog(@"touchesBegan");
+    NSLog(@" DXViewController touchesBegan");
+    DXPageViewController *pageVc = [DXPageViewController new];
+    [self presentViewController:pageVc animated:YES completion:nil];
 }
 
 @end

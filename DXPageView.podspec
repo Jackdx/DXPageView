@@ -33,7 +33,7 @@ TODO: Add long description of the pod here.
   s.source_files = 'DXPageView/Classes/**/*'
 
     s.resource_bundles = {
-    'DXCountryCode' => ['DXPageView/Assets/**/*']
+    'DXPageView' => ['DXPageView/Assets/**/*']
     }
 
   # s.public_header_files = 'Pod/Classes/**/*.h'

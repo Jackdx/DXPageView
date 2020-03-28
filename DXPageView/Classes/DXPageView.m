@@ -12,8 +12,8 @@
 #import "UIImageView+WebCache.h"
 
 
-#define scrollW self.scrollView.frame.size.width
-#define scrollH self.scrollView.frame.size.height
+#define DXScrollW self.scrollView.frame.size.width
+#define DXScrollH self.scrollView.frame.size.height
 
 @interface DXPageView() <UIScrollViewDelegate>
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
@@ -57,7 +57,7 @@
 
 + (instancetype)pageView
 {
-    return [[[NSBundle mainBundle] loadNibNamed:NSStringFromClass(self) owner:nil options:nil] lastObject];
+    return [[[self dx_pageViewBundle] loadNibNamed:NSStringFromClass(self) owner:nil options:nil] lastObject];
 }
 
 /**
@@ -73,20 +73,19 @@
     // 设置pageControl
     CGFloat pageW = 100;
     CGFloat pageH = 20;
-    CGFloat pageX = scrollW - pageW;
-    CGFloat pageY = scrollH - pageH;
+    CGFloat pageX = DXScrollW - pageW;
+    CGFloat pageY = DXScrollH - pageH;
     self.pageControl.frame = CGRectMake(pageX, pageY, pageW, pageH);
-    self.pageControl.center = CGPointMake(scrollW / 2.0, pageY);
-    self.pageControl.hidden = YES;
+    self.pageControl.center = CGPointMake(DXScrollW / 2.0, pageY);
     
     // 设置内容大小
-    self.scrollView.contentSize = CGSizeMake((self.httpImageNames.count + 2) * scrollW, 0);
-    self.scrollView.contentOffset = CGPointMake(scrollW, 0);
+    self.scrollView.contentSize = CGSizeMake((self.httpImageNames.count + 2) * DXScrollW, 0);
+    self.scrollView.contentOffset = CGPointMake(DXScrollW, 0);
     
     // 设置所有imageView的frame
     for (int i = 0; i<self.scrollView.subviews.count; i++) {
         UIImageView *imageView = self.scrollView.subviews[i];
-        imageView.frame = CGRectMake(i * scrollW, 0, scrollW, scrollH);
+        imageView.frame = CGRectMake(i * DXScrollW, 0, DXScrollW, DXScrollH);
     }
 }
 
@@ -161,10 +160,10 @@
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
     self.pageControl.currentPage = (int)(scrollView.contentOffset.x / scrollView.frame.size.width + 0.5 - 1);
-    int num = (scrollView.contentOffset.x / scrollW);
+    int num = (scrollView.contentOffset.x / DXScrollW);
     if (num == self.httpImageNames.count + 1) {
         
-        [self.scrollView setContentOffset:CGPointMake(scrollW, 0) animated:NO];
+        [self.scrollView setContentOffset:CGPointMake(DXScrollW, 0) animated:NO];
     }
 
 }
@@ -218,22 +217,33 @@
 {
     NSInteger page = self.pageControl.currentPage + 2;
     CGPoint offset = self.scrollView.contentOffset;
-    offset.x = page * scrollW;
+    offset.x = page * DXScrollW;
     [self.scrollView setContentOffset:offset animated:YES];
 //    NSLog(@"---下一页");
 }
+//- (void)dealloc
+//{
+//    NSLog(@" DXPageView  dealloc  ");
+//}
 
 - (void)checkPage:(UIScrollView *)scrollView
 {
-    int num = (scrollView.contentOffset.x / scrollW);
+    int num = (scrollView.contentOffset.x / DXScrollW);
     if (num == self.httpImageNames.count + 1) {
         
-        [self.scrollView setContentOffset:CGPointMake(scrollW, 0) animated:NO];
+        [self.scrollView setContentOffset:CGPointMake(DXScrollW, 0) animated:NO];
     }
     if(num == 0)
     {
-        [self.scrollView setContentOffset:CGPointMake(scrollW * self.httpImageNames.count, 0) animated:NO];
+        [self.scrollView setContentOffset:CGPointMake(DXScrollW * self.httpImageNames.count, 0) animated:NO];
     }
 
+}
+
+#pragma mark 私有方法
++ (NSBundle *)dx_pageViewBundle
+{
+    NSBundle *bundle = [NSBundle bundleWithPath:[[NSBundle bundleForClass:[self class]] pathForResource:NSStringFromClass(self) ofType:@"bundle"]];
+    return bundle;
 }
 @end

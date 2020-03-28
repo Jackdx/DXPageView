@@ -28,5 +28,4 @@
 /** 当前圆点颜色 */
 @property (nonatomic, strong) UIColor *currentColor;
 
-- (void)stopTimer;
 @end
