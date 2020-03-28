@@ -1,0 +1,6 @@
+framework module DXPageView {
+  umbrella header "DXPageView-umbrella.h"
+
+  export *
+  module * { export * }
+}

@@ -1,0 +1,25 @@
+PODS:
+  - DXPageView (1.0.0):
+    - SDWebImage (~> 3.0)
+  - SDWebImage (3.8.3):
+    - SDWebImage/Core (= 3.8.3)
+  - SDWebImage/Core (3.8.3)
+
+DEPENDENCIES:
+  - DXPageView (from `../`)
+
+SPEC REPOS:
+  trunk:
+    - SDWebImage
+
+EXTERNAL SOURCES:
+  DXPageView:
+    :path: "../"
+
+SPEC CHECKSUMS:
+  DXPageView: 2434a722be04ac4145bc783ae1a4349689732d02
+  SDWebImage: a72e880a8fe0f7fc31efe15aaed443c074d2a80c
+
+PODFILE CHECKSUM: a7006e4ff531b8e5340a840f1be87e98bd957ae7
+
+COCOAPODS: 1.9.1
