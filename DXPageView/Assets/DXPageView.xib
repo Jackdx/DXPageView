@@ -15,9 +15,6 @@
             <rect key="frame" x="0.0" y="0.0" width="300" height="130"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="default.png" translatesAutoresizingMaskIntoConstraints="NO" id="Zln-5J-NaW">
-                    <rect key="frame" x="0.0" y="0.0" width="300" height="130"/>
-                </imageView>
                 <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" bounces="NO" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HzB-5w-YBL">
                     <rect key="frame" x="0.0" y="0.0" width="300" height="130"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -25,20 +22,14 @@
                         <outlet property="delegate" destination="iN0-l3-epB" id="SqL-BW-1dg"/>
                     </connections>
                 </scrollView>
-                <pageControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" hidesForSinglePage="YES" numberOfPages="3" translatesAutoresizingMaskIntoConstraints="NO" id="9G1-zj-Mox">
+                <pageControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="3" translatesAutoresizingMaskIntoConstraints="NO" id="9G1-zj-Mox">
                     <rect key="frame" x="180" y="90" width="100" height="37"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <color key="pageIndicatorTintColor" red="0.3328430543" green="1" blue="0.2426744736" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                    <color key="currentPageIndicatorTintColor" red="1" green="0.29985912339999998" blue="0.23947823709999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <color key="pageIndicatorTintColor" white="0.66666666669999997" alpha="1" colorSpace="calibratedWhite"/>
+                    <color key="currentPageIndicatorTintColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                 </pageControl>
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-            <constraints>
-                <constraint firstAttribute="trailing" secondItem="Zln-5J-NaW" secondAttribute="trailing" id="E6k-mj-JD9"/>
-                <constraint firstAttribute="bottom" secondItem="Zln-5J-NaW" secondAttribute="bottom" id="GBU-ka-qLY"/>
-                <constraint firstItem="Zln-5J-NaW" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="QeQ-lJ-eGS"/>
-                <constraint firstItem="Zln-5J-NaW" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="tbh-h1-sjt"/>
-            </constraints>
             <nil key="simulatedStatusBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>
@@ -48,7 +39,4 @@
             <point key="canvasLocation" x="420" y="65"/>
         </view>
     </objects>
-    <resources>
-        <image name="default.png" width="220" height="220"/>
-    </resources>
 </document>

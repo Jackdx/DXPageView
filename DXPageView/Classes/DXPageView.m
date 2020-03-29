@@ -18,6 +18,8 @@
 @interface DXPageView() <UIScrollViewDelegate>
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (weak, nonatomic) IBOutlet UIPageControl *pageControl;
+
+@property (nonatomic, strong) UIImage *defaultImage;
 /** 定时器 */
 @property (nonatomic, strong) NSTimer *timer;
 @end
@@ -51,6 +53,9 @@
  */
 - (void)setup
 {
+    self.time = 2;
+    self.pageControl.hidesForSinglePage = self.hidesForSinglePage;
+    self.pageControl.hidden = self.hidePageControl;
     // 开启定时器
     [self startTimer];
 }
@@ -79,7 +84,7 @@
     self.pageControl.center = CGPointMake(DXScrollW / 2.0, pageY);
     
     // 设置内容大小
-    self.scrollView.contentSize = CGSizeMake((self.httpImageNames.count + 2) * DXScrollW, 0);
+    self.scrollView.contentSize = CGSizeMake((self.imageNamesArray.count + 2) * DXScrollW, 0);
     self.scrollView.contentOffset = CGPointMake(DXScrollW, 0);
     
     // 设置所有imageView的frame
@@ -90,27 +95,26 @@
 }
 
 #pragma mark - setter方法的重写
-- (void)setHttpImageNames:(NSArray *)httpImageNames
+- (void)setImageNamesArray:(NSArray *)imageNamesArray
 {
-    _httpImageNames = httpImageNames;
+    _imageNamesArray = imageNamesArray;
     
     // 移除之前的所有imageView
     // 让subviews数组中的所有对象都执行removeFromSuperview方法
     [self.scrollView.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
     
-    NSInteger num = httpImageNames.count;
+    NSInteger num = imageNamesArray.count;
     if (num == 0) return;
     
     UIImageView *firstImageView = [[UIImageView alloc] init];
-    [self checkImgUrl:httpImageNames[num-1] withImgV:firstImageView];
-//    [firstImageView sd_setImageWithURL:[NSURL URLWithString:httpImageNames[num-1]] placeholderImage:[UIImage imageNamed:@"default"]];
+    [self checkImgUrl:imageNamesArray[num-1] withImgV:firstImageView];
+
     [self.scrollView addSubview:firstImageView];
     // 根据图片名创建对应个数的imageView
     
     for (int i = 0; i<num; i++) {
         UIImageView *imageView = [[UIImageView alloc] init];
-//        [imageView sd_setImageWithURL:[NSURL URLWithString:httpImageNames[i]] placeholderImage:[UIImage imageNamed:@"default"]];
-        [self checkImgUrl:httpImageNames[i] withImgV:imageView];
+        [self checkImgUrl:imageNamesArray[i] withImgV:imageView];
         [self.scrollView addSubview:imageView];
         imageView.userInteractionEnabled = YES;
         UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tap:)];
@@ -118,18 +122,17 @@
         imageView.tag = i;
     }
     UIImageView *lastImageView = [[UIImageView alloc] init];
-//    [lastImageView sd_setImageWithURL:[NSURL URLWithString:httpImageNames[0]] placeholderImage:[UIImage imageNamed:@"default"]];
-    [self checkImgUrl:httpImageNames[0] withImgV:lastImageView];
+    [self checkImgUrl:imageNamesArray[0] withImgV:lastImageView];
     [self.scrollView addSubview:lastImageView];
     
     // 设置总页数
-    self.pageControl.numberOfPages = httpImageNames.count;
+    self.pageControl.numberOfPages = imageNamesArray.count;
 
 }
 - (void)checkImgUrl:(NSString *)imgUrl withImgV:(UIImageView *)imageView
 {
     if ([imgUrl hasPrefix:@"http"]) {
-        [imageView sd_setImageWithURL:[NSURL URLWithString:imgUrl] placeholderImage:[UIImage imageNamed:@"default"]];
+        [imageView sd_setImageWithURL:[NSURL URLWithString:imgUrl] placeholderImage:self.defaultImage];
     }
     else
     {
@@ -142,18 +145,18 @@
         [_delegate pageView:self didSelectPageAtIndex:t.view.tag];
     }
 }
-- (void)setCurrentColor:(UIColor *)currentColor
+- (void)setCurrentPageIndicatorTintColor:(UIColor *)currentPageIndicatorTintColor
 {
-    _currentColor = currentColor;
+    _currentPageIndicatorTintColor = currentPageIndicatorTintColor;
     
-    self.pageControl.currentPageIndicatorTintColor = currentColor;
+    self.pageControl.currentPageIndicatorTintColor = currentPageIndicatorTintColor;
 }
 
-- (void)setOtherColor:(UIColor *)otherColor
+- (void)setPageIndicatorTintColor:(UIColor *)pageIndicatorTintColor
 {
-    _otherColor = otherColor;
+    _pageIndicatorTintColor = pageIndicatorTintColor;
     
-    self.pageControl.pageIndicatorTintColor = otherColor;
+    self.pageControl.pageIndicatorTintColor = pageIndicatorTintColor;
 }
 
 #pragma mark - <UIScrollViewDelegate>
@@ -161,7 +164,7 @@
 {
     self.pageControl.currentPage = (int)(scrollView.contentOffset.x / scrollView.frame.size.width + 0.5 - 1);
     int num = (scrollView.contentOffset.x / DXScrollW);
-    if (num == self.httpImageNames.count + 1) {
+    if (num == self.imageNamesArray.count + 1) {
         
         [self.scrollView setContentOffset:CGPointMake(DXScrollW, 0) animated:NO];
     }
@@ -198,7 +201,7 @@
 - (void)startTimer
 {
     // 创建一个定时器
-    self.timer = [NSTimer scheduledTimerWithTimeInterval:4 target:self selector:@selector(nextPage) userInfo:nil repeats:YES];
+    self.timer = [NSTimer scheduledTimerWithTimeInterval:self.time target:self selector:@selector(nextPage) userInfo:nil repeats:YES];
     [[NSRunLoop mainRunLoop] addTimer:self.timer forMode:NSRunLoopCommonModes];
 }
 
@@ -229,15 +232,27 @@
 - (void)checkPage:(UIScrollView *)scrollView
 {
     int num = (scrollView.contentOffset.x / DXScrollW);
-    if (num == self.httpImageNames.count + 1) {
+    if (num == self.imageNamesArray.count + 1) {
         
         [self.scrollView setContentOffset:CGPointMake(DXScrollW, 0) animated:NO];
     }
     if(num == 0)
     {
-        [self.scrollView setContentOffset:CGPointMake(DXScrollW * self.httpImageNames.count, 0) animated:NO];
+        [self.scrollView setContentOffset:CGPointMake(DXScrollW * self.imageNamesArray.count, 0) animated:NO];
     }
 
+}
+
+- (UIImage *)defaultImage
+{
+    if (!_defaultImage) {
+        UIImage *image = [UIImage imageWithContentsOfFile:[[DXPageView dx_pageViewBundle] pathForResource:@"default" ofType:@"png"]];
+        if (_defaultImageName.length) {
+            image = [UIImage imageNamed:_defaultImageName];
+        }
+        _defaultImage = image;
+    }
+    return _defaultImage;
 }
 
 #pragma mark 私有方法
@@ -246,4 +261,13 @@
     NSBundle *bundle = [NSBundle bundleWithPath:[[NSBundle bundleForClass:[self class]] pathForResource:NSStringFromClass(self) ofType:@"bundle"]];
     return bundle;
 }
+
+- (void)setTime:(CGFloat)time
+{
+    if (time < 1) {
+        time = 1;
+    }
+    _time = time;
+}
+
 @end
